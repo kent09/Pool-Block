@@ -79,7 +79,7 @@ class Minandoandos extends Command
             $oldHeight = NewNetwork::orderBy('block', 'asc')->first();
             foreach($vars as $var){
                 if($index%2==1){
-                    if(intval($oldHeight->block) < intval($var)){
+                    if(intval($oldHeight->block) <= intval($var)){
                         $this->count++;
                         $holderHeight = $var;
                         $newpool = new Minandoando;
@@ -129,7 +129,7 @@ class Minandoandos extends Command
             foreach($getBlocks as $getBlock){
                 if($index%2==1){
 
-                    if(intval($oldHeight->block) < intval($getBlock)){
+                    if(intval($oldHeight->block) <= intval($getBlock)){
                         $this->count++;
                         $holderHeight = $getBlock;
                         $newpool = new Minandoando;

@@ -5,6 +5,7 @@
         <meta name="_token" content="{{ csrf_token() }}">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="refresh" content="25">
 
         <title>Pool Blocks</title>
 
@@ -161,11 +162,22 @@
     "type": "serial",
     "theme": "light",
     "dataProvider": [],
+    "minWidth": 200,
+    "maxWidth": 400,
+    "maxHeight": 400,
+    "minHeight": 200,
+    "overrides": {
+        "precision": 2,
+    "legend": {
+      "enabled": false
+    },
     "valueAxes": [ {
         "gridColor": "#FFFFFF",
         "gridAlpha": 0.2,
-        "dashLength": 0
+        "dashLength": 0,
+        "inside": true
     } ],
+    },
     "gridAboveGraphs": true,
     "startDuration": 1,
     "graphs": [ {
