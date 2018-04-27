@@ -36,11 +36,11 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $ts = date('Y-m-d-H-i-s');
 
-        $schedule->command('new:network')->everyMinute()->sendOutputTo(storage_path('logs/new-network-'.$ts.'.log'));
-        $schedule->command('new:thirydays')->everyMinute()->sendOutputTo(storage_path('logs/new-thirydays-'.$ts.'.log'));
-        $schedule->command('new:blockspool')->everyMinute()->sendOutputTo(storage_path('logs/new-blockspool-'.$ts.'.log'));
-        $schedule->command('minandoando:blockspool')->everyMinute()->sendOutputTo(storage_path('logs/new-minandoando-'.$ts.'.log'));
-        $schedule->command('cryptomineros:blockspool')->everyMinute()->sendOutputTo(storage_path('logs/new-cryptomineros-'.$ts.'.log'));
+        $schedule->command('new:network')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-network-'.$ts.'.log'));
+        $schedule->command('new:blockspool')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-blockspool-'.$ts.'.log'));
+        $schedule->command('minandoando:blockspool')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-minandoando-'.$ts.'.log'));
+        $schedule->command('cryptomineros:blockspool')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-cryptomineros-'.$ts.'.log'));
+        $schedule->command('new:thirydays')->cron('*/10 * * * *')->sendOutputTo(storage_path('logs/new-thirydays-'.$ts.'.log'));
         
 
         // $schedule->command('blocks:network')->everyMinute()->sendOutputTo(storage_path('logs/blocks-network-'.$ts.'.log'));
