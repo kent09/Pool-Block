@@ -45,8 +45,8 @@ class Minandoandos extends Command
      */
     public function handle()
     {
-        // $this->line('Getting started...');
-        // \App\Minandoando::query()->truncate();
+        $this->line('Getting started...');
+        \App\Minandoando::query()->truncate();
         $curl = curl_init();
         
         curl_setopt_array($curl, array(
