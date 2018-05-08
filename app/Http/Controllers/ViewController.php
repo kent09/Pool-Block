@@ -106,10 +106,19 @@ class ViewController extends Controller
         $newNetwork = NewNetwork::count();
 
         $unaccountedTotal = $newNetwork - ($newpool + $minandoando + $cryptomineros);
-        $unaccountedPercent = ($unaccountedTotal / $newNetwork) * 100;
-        $newpool_percentage = ($newpool / $newNetwork) * 100;
-        $minan_percentage = ($minandoando / $newNetwork) * 100;
-        $crypto_percentage = ($cryptomineros / $newNetwork) * 100;
+
+        if($newNetwork !=0){
+            $unaccountedPercent = ($unaccountedTotal / $newNetwork) * 100;
+            $newpool_percentage = ($newpool / $newNetwork) * 100;
+            $minan_percentage = ($minandoando / $newNetwork) * 100;
+            $crypto_percentage = ($cryptomineros / $newNetwork) * 100;
+        }else{
+            $unaccountedPercent = 0;
+            $newpool_percentage = 0;
+            $minan_percentage = 0;
+            $crypto_percentage = 0;
+        }
+        
 
         return response()->json(compact('newpool', 'newNetwork','newpool_percentage', 'minandoando', 'minan_percentage', 'cryptomineros', 'crypto_percentage', 'unaccountedTotal', 'unaccountedPercent'));
     }

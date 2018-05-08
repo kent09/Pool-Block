@@ -77,7 +77,7 @@ class NewThiryDaysNetwork extends Command
 
         curl_setopt_array($curl, array(
         CURLOPT_PORT => "8081",
-        CURLOPT_URL => "http://superior-coin.com:8081/api/transactions?page=".$page."&limit=100",
+        CURLOPT_URL => "http://superior-coin.info:8081/api/transactions?page=".$page."&limit=100",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
