@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\NewBlocksPool::class,
         \App\Console\Commands\Minandoandos::class,
         \App\Console\Commands\Cryptomineros::class,
+        \App\Console\Commands\GetAllPoolData::class,
         // \App\Console\Commands\TotalBlocksNetwork::class,
         // \App\Console\Commands\TotalBlocksPool::class,
         // \App\Console\Commands\ThiryDaysNetwork::class,
@@ -36,6 +37,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $ts = date('Y-m-d-H-i-s');
 
+        $schedule->command('get:pool')->cron('0 0 0 29 5 ? 2018')->sendOutputTo(storage_path('logs/pool-data-'.$ts.'.log'));
         $schedule->command('new:network')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-network-'.$ts.'.log'));
         $schedule->command('new:blockspool')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-blockspool-'.$ts.'.log'));
         $schedule->command('minandoando:blockspool')->cron('*/5 * * * *')->sendOutputTo(storage_path('logs/new-minandoando-'.$ts.'.log'));

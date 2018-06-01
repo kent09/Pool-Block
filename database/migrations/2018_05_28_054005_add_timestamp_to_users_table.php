@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeCountTypeInNewThirtiesTable extends Migration
+class AddTimestampToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class ChangeCountTypeInNewThirtiesTable extends Migration
     public function up()
     {
         Schema::table('new_thirties', function (Blueprint $table) {
-            $table->string('count')->change();
+            $table->string('pool_timestamps');
         });
     }
 
@@ -26,7 +26,7 @@ class ChangeCountTypeInNewThirtiesTable extends Migration
     public function down()
     {
         Schema::table('new_thirties', function (Blueprint $table) {
-
+            $table->dropColumn('pool_timestamps');
         });
     }
 }

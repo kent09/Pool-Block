@@ -3,28 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Network;
-use App\NewNetwork;
 use App\NewThirty;
-use Auth;
 use DB;
 
-class NewThiryDaysNetwork extends Command
+class GetAllPoolData extends Command
 {
-    protected $sum = 0;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'new:thirydays';
+    protected $signature = 'get:pool';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sample';
+    protected $description = 'Get all data in the pool';
 
     /**
      * Create a new command instance.
@@ -44,7 +40,7 @@ class NewThiryDaysNetwork extends Command
     public function handle()
     {
         $this->line('Getting started...');
-        // \App\NewThirty::query()->truncate();
+        \App\NewThirty::query()->truncate();
         $network = $this->network(0);
     }
 
@@ -58,13 +54,9 @@ class NewThiryDaysNetwork extends Command
                 $qwe = count((explode(':', $dat['age'])));
                 $day = (explode(':', $dat['age'])[0]);
 
-                $latest = DB::table('new_thirties')->latest()->first();
-                
-                if($latest) {
-                    if($day < "30" && $latest->day <= $dat['height']){
-                        $this->storeData($dat, $qwe);
-                    }
-                } 
+                if($day < "30"){
+                    $this->storeData($dat, $qwe);
+                }
             }
             $this->network($page+1);
         }

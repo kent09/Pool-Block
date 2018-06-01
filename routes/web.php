@@ -25,3 +25,6 @@ Route::get('superiorcoinpool/api', 'ViewController@superiorcoinpool');
 Route::get('/newnetworks/api', 'ViewController@newNetwork');
 
 Route::get('/thritydaysnetwork', 'ViewController@thrityDaysNetwork');
+
+
+Route::post('/date', 'ViewController@sortDate');

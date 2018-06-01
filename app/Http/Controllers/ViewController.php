@@ -60,10 +60,10 @@ class ViewController extends Controller
         // }
         // dump($chuck_days);
         // dd($lastThrityDay);
-    
+        $last = NewThirty::whereNotNull('id')->orderBy('id', 'desc')->first();
         $data = $this->thrityDaysNetwork();
         // dump($data);
-        return view('welcome', compact('data'));
+        return view('welcome', compact('data', 'last'));
     }
 
     public function poolStats($pool_name)
@@ -135,9 +135,29 @@ class ViewController extends Controller
         $qweq = \DB::table('new_thirties')
                 ->selectRaw('count(count) as totalhit')
                 ->selectRaw('count as day')
+                ->selectRaw('max(pool_timestamps) as today')
+                ->groupBy('count')
+                ->limit(7)
+                ->get();
+        return $qweq;
+    }
+
+    public function sortDate(Request $request) 
+    {
+
+        $date = explode("-", $request->date);
+        $dt = Carbon::create($date[2], $date[0], $date[1]);
+        $day = $dt->timestamp;
+        $month = $dt->subDays(5);
+
+        $qweq = \DB::table('new_thirties')
+                ->whereBetween('pool_timestamps',[$month->timestamp, $day])
+                ->selectRaw('count(count) as totalhit')
+                ->selectRaw('count as day')
+                ->selectRaw('max(pool_timestamps) as today')
                 ->groupBy('count')
                 ->get();
-                // dump($qweq);
-        return $qweq;
+
+        return response()->json($qweq);
     }
 }
