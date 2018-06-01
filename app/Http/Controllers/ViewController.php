@@ -145,10 +145,15 @@ class ViewController extends Controller
     public function sortDate(Request $request) 
     {
 
-        $date = explode("-", $request->date);
-        $dt = Carbon::create($date[2], $date[0], $date[1]);
+        $timestamp = substr($request->date, 0, 10);
+
+        $dt = Carbon::createFromTimestamp((int)$timestamp);
+
+        // $date = explode("-", $request->date);
+        // $dt = Carbon::create($date[2], $date[0], $date[1]);
+
         $day = $dt->timestamp;
-        $month = $dt->subDays(5);
+        $month = $dt->subMonth();
 
         $qweq = \DB::table('new_thirties')
                 ->whereBetween('pool_timestamps',[$month->timestamp, $day])
@@ -160,4 +165,18 @@ class ViewController extends Controller
 
         return response()->json($qweq);
     }
+
+    public function sortYear() {
+
+        $qweq = \DB::table('new_thirties')
+                ->selectRaw('Year(FROM_UNIXTIME(pool_timestamps)) as year')
+                ->selectRaw('count(count) as totalhit')
+                ->orderBy('year', 'desc')
+                ->groupBy('year')
+                ->get();
+
+        return response()->json($qweq);
+    }
+
+
 }

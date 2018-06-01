@@ -26,5 +26,5 @@ Route::get('/newnetworks/api', 'ViewController@newNetwork');
 
 Route::get('/thritydaysnetwork', 'ViewController@thrityDaysNetwork');
 
-
+Route::get('/sort-year', 'ViewController@sortYear');
 Route::post('/date', 'ViewController@sortDate');

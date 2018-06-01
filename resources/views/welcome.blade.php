@@ -33,6 +33,16 @@
             .date {
                 padding: 10px;
             }
+            .datepicker table tr td.disabled {
+                color: #eaeaea;
+            }
+            .sortYr {
+                text-align: center;
+                padding: 10px;
+            }
+            .sortYr button {
+                border: 
+            }
         </style>
     </head>
     <body>
@@ -57,11 +67,22 @@
                     <a class="navbar-brand" href="#"><img src="https://steemitimages.com/0x0/https://the-superior-coin.com/images/Superior.png" alt=""> SUP Pool Blocks</a>
                 </div>
                 <div class="col-md-8">
-                    <!-- <input type="hidden" class="hidden-last" value="{{ $last->pool_timestamps }}">
-                    <div class="input-append date text-right">
-                      <input class="span2 datepicker" size="16" type="text">
-                      <span class="add-on"><i class="icon-th"></i></span>
-                    </div> -->
+                    <input type="hidden" class="hidden-last" value="{{ $last->pool_timestamps }}">
+                    <div class="row justify-content-end">
+                        <div class="col-3">
+                            <div class="input-group date text-right" id="datepicker" data-provide="datepicker">
+                                <input class="form-control text-center" size="16" type="text">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="sortYr">
+                                <button class="btn btn-light">Sort Yearly</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,36 +203,58 @@
     <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts/3.21.12/plugins/responsive/responsive.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/custom-chart.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/ajax-request.js') }}"></script>
 
     <script>
-        // $(function() {
-        //     var last = $('.hidden-last').val();
+        $(function() {
+            var last = $('.hidden-last').val();
+            var input_today = $('#datepicker .form-control').val(moment().format('MM-DD-YYYY'));
+            var last_date = new Date(last*1000);
 
-        //     var last_date = new Date(last*1000);
+            $('#datepicker').datepicker({
+                format: 'mm-dd-yyyy',
+                endDate: '+0d',
+                startDate: last_date,
+                todayHighlight: true,
+                setDate: new Date(<?php echo date("Y,m,d"); ?>)
+            }).on('changeDate', function(ev) {
+                $('.datepicker-dropdown').hide();
+                var value = $("#datepicker .form-control").datepicker("getUTCDate");
+                $.ajax({
+                    url: '/date',
+                    type: 'POST',
+                    data: {_token: _token, date: new Date(value).getTime()},
+                }).done(function(data) {
+                    var tr;
+                    $.each(data, function(key, val) {
+                        tr += "<tr><td>"+ moment(val.today*1000).format('MM-DD-YYYY') +"</td><td style='text-align: center;'>"+ val.totalhit +"</td></tr>";
+                    });
+                    $('#myTable tbody').html(tr);
+                })
+                .fail(function(data) {
+                    console.log("error");
+                });
+            });
 
-        //     $('.datepicker').datepicker({
-        //         'setDate': new Date(),
-        //         'autoclose': true,
-        //         format: 'mm-dd-yyyy',
-        //         endDate: '+0d',
-        //         minDate: last_date,
-        //         defaultDate: new Date()
-        //     }).on('changeDate', function(ev) {
-        //         var subStr = $('.datepicker').val();
-        //         $.ajax({
-        //             url: '/date',
-        //             type: 'POST',
-        //             data: {_token: _token, date: subStr},
-        //         }).done(function(data) {
-        //             // console.log(data);
-        //         })
-        //         .fail(function(data) {
-        //             console.log("error");
-        //         });
-        //     });
-        // });
 
+            $('.sortYr button').click(function(){
+                $.ajax({
+                    url: '/sort-year',
+                    type: 'GET',
+                    data: {_token: _token},
+                }).done(function(data) {
+                    var tr;
+                    $.each(data, function(key, val) {
+                        tr += "<tr><td>"+ val.year +"</td><td style='text-align: center;'>"+ val.totalhit +"</td></tr>";
+                    });
+                    $('#myTable tbody').html(tr);
+                })
+                .fail(function(data) {
+                    console.log("error");
+                });
+            })
+        });
     </script>
 </html>
