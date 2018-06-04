@@ -57,7 +57,7 @@ class GetAllPoolData extends Command
                 if($day < "30"){
                     $this->storeData($dat, $qwe);
                 }
-                sleep(0.05);
+                sleep(0.1);
             }
             $this->network($page+1);
         }

@@ -56,14 +56,6 @@ $(function() {
         $('.datepicker-dropdown').hide();
 
         var value = $("#datepicker .form-control").val();
-
-        $("#datepicker").datepicker({
-            format: 'mm-dd-yyyy',
-            endDate: '+0d',
-            startDate: last_date,
-            todayHighlight: true,
-            setDate: new Date()
-        });
         
         // console.log(moment(value, 'MM-DD-YYYY', true).format());
         // console.log(moment.utc(value, "MM-DD-YYYY"));
@@ -78,8 +70,21 @@ $(function() {
                 tr += "<tr><td>"+ moment(val.today*1000).format('MM-DD-YYYY') +"</td><td style='text-align: center;'>"+ val.totalhit +"</td></tr>";
             });
             $('#myTable tbody').html(tr);
+            
+            // $('.hidden-last').val(data.last.pool_timestamps);
+            // last = $('.hidden-last').val();
 
-            $("#datepicker").datepicker("startDate", data.last.pool_timestamps);
+            last_date = new Date(data.last.pool_timestamps*1000);
+
+            $('#datepicker').datepicker('destroy');
+
+            $("#datepicker").datepicker({
+                format: 'mm-dd-yyyy',
+                endDate: '+0d',
+                startDate: last_date,
+                todayHighlight: true,
+            });
+
         })
         .fail(function(data) {
             console.log("error");
