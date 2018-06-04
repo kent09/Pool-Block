@@ -151,6 +151,7 @@ class ViewController extends Controller
 
         // $date = explode("-", $request->date);
         // $dt = Carbon::create($date[2], $date[0], $date[1]);
+        $last = NewThirty::whereNotNull('id')->orderBy('id', 'desc')->first();
 
         $day = $dt->timestamp;
         $month = $dt->subMonth();
@@ -163,7 +164,7 @@ class ViewController extends Controller
                 ->groupBy('count')
                 ->get();
 
-        return response()->json($qweq);
+        return response()->json(['data' => $qweq, 'last' => $last]);
     }
 
     public function sortYear() {
