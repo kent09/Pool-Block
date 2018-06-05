@@ -144,10 +144,11 @@ class ViewController extends Controller
 
     public function sortDate(Request $request) 
     {
-
         $timestamp = substr($request->date, 0, 10);
 
         $dt = Carbon::createFromTimestamp((int)$timestamp);
+
+        // dump($dt);
 
         // $date = explode("-", $request->date);
         // $dt = Carbon::create($date[2], $date[0], $date[1]);

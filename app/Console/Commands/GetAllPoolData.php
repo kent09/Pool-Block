@@ -48,15 +48,14 @@ class GetAllPoolData extends Command
         $data = $this->GetUnder24Hours($page);
         $data = json_decode($data, true);
 
-
         if(count($data['data']['blocks']) > 0 ){
             foreach($data['data']['blocks'] as $dat){
                 $qwe = count((explode(':', $dat['age'])));
                 $day = (explode(':', $dat['age'])[0]);
 
-                if($day < "30"){
+                // if($day < "30"){
                     $this->storeData($dat, $qwe);
-                }
+                // }
                 sleep(0.1);
             }
             $this->network($page+1);

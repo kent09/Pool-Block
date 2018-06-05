@@ -41,40 +41,42 @@ function newNetwork(){
 $(function() {
 
     var last = $('.hidden-last').val();
-    var input_today = $('#datepicker .form-control').val(moment().format('MM-DD-YYYY'));
+    // var input_today = $('#datepicker .form-control').val(moment().format('MM-DD-YYYY'));
     var last_date = new Date(last*1000);
 
+    // var newYork = moment.tz(new Date(), "Africa/Monrovia").format();
+
+
+    // console.log(new Date());
+    // console.log(newYork);
 
     $('#datepicker ').datepicker({
         format: 'mm-dd-yyyy',
         endDate: '+0d',
         startDate: last_date,
         todayHighlight: true,
-        setDate: new Date()
+        // setDate: new Date()
     }).on('changeDate', function(ev) {
 
         $('.datepicker-dropdown').hide();
+        // console.log(ev.date);
 
         var value = $("#datepicker .form-control").val();
-        
-        // console.log(moment(value, 'MM-DD-YYYY', true).format());
-        // console.log(moment.utc(value, "MM-DD-YYYY"));
+
+        var newYork = moment.tz(ev.date, "Africa/Bissau");
 
         $.ajax({
             url: '/date',
             type: 'POST',
-            data: {_token: _token, date: new Date(moment.utc(value, "MM-DD-YYYY")).getTime()},
+            data: {_token: _token, date: new Date(moment.utc(newYork, 'MM-DD-YYYY')).getTime() },
         }).done(function(data) {
             var tr;
             $.each(data.data, function(key, val) {
                 tr += "<tr><td>"+ moment(val.today*1000).format('MM-DD-YYYY') +"</td><td style='text-align: center;'>"+ val.totalhit +"</td></tr>";
             });
             $('#myTable tbody').html(tr);
-            
-            // $('.hidden-last').val(data.last.pool_timestamps);
-            // last = $('.hidden-last').val();
 
-            last_date = new Date(data.last.pool_timestamps*1000);
+            var last_date = new Date(data.last.pool_timestamps*1000);
 
             $('#datepicker').datepicker('destroy');
 
@@ -83,8 +85,10 @@ $(function() {
                 endDate: '+0d',
                 startDate: last_date,
                 todayHighlight: true,
+                setDate: newYork
             });
 
+            // $('.hidden-last').val(data.last.pool_timestamps);
         })
         .fail(function(data) {
             console.log("error");
@@ -92,10 +96,6 @@ $(function() {
 
         
     });
-
-
-    
-
 
 
     $('.sortYr button').click(function(){
@@ -113,5 +113,6 @@ $(function() {
         .fail(function(data) {
             console.log("error");
         });
-    })
+    });
+
 });

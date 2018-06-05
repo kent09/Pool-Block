@@ -59,14 +59,13 @@ class NewThiryDaysNetwork extends Command
                 $day = (explode(':', $dat['age'])[0]);
 
                 $latest = DB::table('new_thirties')->latest()->first();
-                
                 if($latest) {
-                    if($day < "30" && $latest->day <= $dat['height']){
+                    if($latest->day <= $dat['height']){
                         $this->storeData($dat, $qwe);
                     }
                 } 
             }
-            $this->network($page+1);
+            // $this->network($page+1);
         }
     }
 

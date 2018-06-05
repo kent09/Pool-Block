@@ -43,6 +43,9 @@
             .sortYr button {
                 border: 
             }
+            .serdate {
+
+            }
         </style>
     </head>
     <body>
@@ -159,6 +162,10 @@
             </div>
             <div class="col-md-5">
                 <div>
+                    <h3>Disclaimer</h3>
+                    <div>The data that being fetch from the serve are base on GMT UTC -8 time. It may have some discrepancy on fetching the total block since the local time don't match on serve time</div>
+                </div>
+                <div>
                     <table class="table" id="myTable" style="margin-top: 12px;">
                         <thead class="thead-dark">
                             <tr>
@@ -204,6 +211,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/amcharts/3.21.12/plugins/responsive/responsive.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.17/moment-timezone-with-data.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/custom-chart.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/ajax-request.js') }}"></script>
 
